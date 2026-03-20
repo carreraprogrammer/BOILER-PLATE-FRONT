@@ -1,0 +1,6 @@
+import { useState } from 'react';
+import { Button } from '../../atoms/Button';
+import { DynamicField } from '../../molecules/DynamicField';
+import { formService } from '../../../services/formService';
+import type { FormSchema, FormValues } from '../../../types/form.types';
+export const DynamicForm=({schema,initialValues={},onSuccess,onError,readOnly=false}:{schema:FormSchema;initialValues?:FormValues;onSuccess?:(payload:Record<string, unknown>)=>void;onError?:(error:unknown)=>void;readOnly?:boolean;})=>{ const [values,setValues]=useState<FormValues>(Object.fromEntries(schema.fields.map((field)=>[field.name, initialValues[field.name] ?? (field.type==='checkbox' ? false : '')]))); const [errors]=useState<Record<string,string>>({}); const [isSubmitting,setIsSubmitting]=useState(false); return <form onSubmit={async (e)=>{ e.preventDefault(); if(readOnly) return; setIsSubmitting(true); try { const response=await formService.submit(schema,values); onSuccess?.(response.data); } catch (error) { onError?.(error); } finally { setIsSubmitting(false); } }}>{schema.fields.map((field)=><DynamicField key={field.name} field={field} value={values[field.name]} onChange={(value)=>setValues((current)=>({ ...current, [field.name]: value }))} error={errors[field.name]} />)}{!readOnly ? <Button type='submit' label='Enviar' loading={isSubmitting} fullWidth /> : null}</form>; };

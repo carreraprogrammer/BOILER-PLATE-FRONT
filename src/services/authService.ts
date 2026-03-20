@@ -1,0 +1,3 @@
+import { api } from './api';
+import type { AuthResponse, LoginCredentials } from '../types/auth.types';
+export const authService={ async login(credentials:LoginCredentials):Promise<AuthResponse>{ const {data}=await api.post('/api/v1/auth/login',credentials); return data as AuthResponse; }, async refresh(refreshToken:string):Promise<AuthResponse>{ const {data}=await api.post('/api/v1/auth/refresh',{ refreshToken }); return data as AuthResponse; } };

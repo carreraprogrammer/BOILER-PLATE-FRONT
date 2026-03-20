@@ -1,0 +1,3 @@
+import { Link } from 'react-router-dom'; import { AuthLayout } from '../../templates/AuthLayout'; import { DynamicForm } from '../../organisms/DynamicForm';
+const schema={ slug:'register-form', title:'Register', submit_endpoint:'/api/v1/auth/register', submit_method:'POST' as const, fields:[{name:'name', type:'text' as const, label:'Nombre'},{name:'email', type:'email' as const, label:'Email'},{name:'password', type:'password' as const, label:'Password'}] };
+export const RegisterPage=()=> <AuthLayout title='Registro'><DynamicForm schema={schema} /><Link to='/login'>¿Ya tienes cuenta? Inicia sesión</Link></AuthLayout>;
