@@ -1,0 +1,3 @@
+import { useState } from 'react';
+import { IonToast } from '@ionic/react';
+export const useToast=()=>{ const [message,setMessage]=useState(''); const [color,setColor]=useState<'success'|'danger'|'primary'>('primary'); const [open,setOpen]=useState(false); const show=(next:string,nextColor:'success'|'danger'|'primary')=>{ setMessage(next); setColor(nextColor); setOpen(true); }; return { showSuccess:(m:string)=>show(m,'success'), showError:(m:string)=>show(m,'danger'), showInfo:(m:string)=>show(m,'primary'), toast:<IonToast isOpen={open} message={message} color={color} duration={2500} onDidDismiss={()=>setOpen(false)} /> }; };
